@@ -1,6 +1,6 @@
 ---
 title: "Week 03 Lab: Tidying ASEAN Meat-Production Data with the Tidyverse"
-subtitle: "CSC3107 Information Visualization — Team Cyan"
+subtitle: "CSC3107 Information Visualization - Team Cyan"
 date: "2026-05-19"
 format:
   html:
@@ -30,63 +30,66 @@ library(waldo)
 
 #### Chuang Jun Hao
 
-**a.** Columns: `country` (character), `animal` (character), `year` (integer), `production` (numeric/double). The production values are in thousands of metric tons so they'll be decimal numbers.
+a. For the columns, the country with char, animal with char, year with int & production with num 
 
-**b.** 160 rows. 10 countries × 4 animal types × 4 years (2018–2021) = 160.
+b. Total of 160 rows, 10 countries × 4 animal types × 4 years which is 160 
 
-**c.**
-Year values appear as single row labels (2021, 2020, …) instead of being a proper column — one variable is spread across multiple rows. Each country is its own column instead of being a value in a `country` column. There are "Total meat production" rows that are just sums of other rows — redundant.
+c.
+As year values appear as single row labels (2021, 2020, …) instead of being a column, 1 variable is spread across multiple rows. Each country has its own column instead of being a value in a country column. There are "Total meat production" rows that are just sums of other rows which are not needed
 
 ---
 
 #### Lim Tze Kai
 
-**a.** `country` (chr), `animal` (chr), `year` (numeric), `production` (numeric). Year could be integer but I'll say numeric to be safe.
+a. country (chr), animal (chr), year (numeric), production (numeric).
 
-**b.** Should be 160 rows: 10 ASEAN countries × 4 meat categories × 4 years.
+b. Should be 160 rows: 10 countries × 4 meat categories × 4 years.
 
-**c.**
-Countries are spread across columns — they should be values in one column called `country`. Years are row headers, not a column. There is an "ASEAN" aggregate column that is derivable and does not belong in tidy data. Section header rows like "Livestock production" are not actual observations.
+c.
+Countries are spread across columns, they should be values in one column named it country. Years are row headers, and not a column. There is an "ASEAN" aggregate column that is derivable and does not belong in tidy data.
 
 ---
 
 #### Amelia Kwek Li Yan
 
-**a.** `country` (character), `animal` (character), `year` (integer — whole numbers only), `production` (double). I wrote integer for year since 2018–2021 are whole numbers, but numeric would also be fine.
+a. country (character), animal (character), year (integer), production (double). Year should be integer because the values are whole numbers, but numeric type would be fine as well.
 
-**b.** 160 rows. 10 × 4 × 4 = 160. Each unique combination of (country, animal, year) is one row.
+b. 160 rows. 10 × 4 × 4 = 160. Each unique combination of (country, animal, year) is one row.
 
-**c.**
-The year variable is a row-group label rather than a column, so it violates "each variable forms a column". Country names are column headers instead of values — they should all go into one `country` column. "Total meat production" rows are aggregates that can be computed from the other rows and should be dropped Cambodia's mutton-and-goat values are recorded as 0 when they should be `NA` (not available) — zero and missing mean different things.
+c.
+The year variable is a row-group label, not a column, so it violates "each variable forms a column". Country names are column headers and not values so they all need to be put into one country column. Total meat production rows were dropped as they are aggregates that can be computed from other rows. Cambodia's mutton-and-goat values are recorded as 0 when they should be NA because 0 and missing mean different things.
 
 ---
 
 #### Tan Bing Kun Terence
 
-**a.** `country` (chr), `animal` (chr), `year` (dbl or int), `production` (dbl).
+a. country is chr, animal is chr, year is dbl, production is dbl.
 
-**b.** I think 160 rows — 10 countries, 4 animal types, 4 years, so 10 × 4 × 4 = 160.
+b. I think 160 rows as there are 10 countries, 4 animal types, 4 years, so 10 × 4 × 4 = 160.
 
-**c.**
-Years are embedded as row labels, not stored in their own column. Country names are used as column names when they should be data values. Header rows like "Livestock production" and "Poultry production" are not observations. The ASEAN total column is a derived aggregate and is not a raw observation.
+c.
+Years are embedded as row labels, not stored in their own column. Country names are used as column names instead of data values. Header rows like "Livestock production" and "Poultry production" are not data observations. The ASEAN total column is a derived aggregate and is not a raw data observation.
 
 ---
 
 #### Kwok Chang Feng Zenden
 
-**a.** `country` (character), `animal` (character), `year` (numeric), `production` (numeric). Production is in thousands of metric tons.
+a.
+The dataset contains four variables: country (character), animal type (character), year (numeric), and production amount (numeric). Production values are measured in thousands of metric tons.
 
-**b.** 160 rows. Each row = one country + one animal type + one year. 10 × 4 × 4 = 160.
+b.
+The dataset consists of 160 rows. Each row represents a unique combination of one country, one animal type, and one year. This comes from 10 countries × 4 animal types × 4 years, giving a total of 160 observations.
 
-**c.**
-Years (2018–2021) appear only once each as a row label at the top of a block — they are not a dedicated column. Each country occupies its own column; the country name is a variable value, not a variable name. "Total meat production" and the ASEAN column summarise data that is already present and should be removed.Section sub-headers ("Livestock production", "Poultry production") have no production values and are structural, not data.
+c.
+The original table structure is not tidy because the years (2018–2021) are displayed only once at the top of each section instead of being stored in a dedicated “Year” column. In addition, each country is shown as a separate column, even though country names should be treated as values within a single variable rather than as column headers. Summary columns such as “Total meat production” and “ASEAN” should also be removed because they duplicate information already contained in the dataset. Furthermore, section headings like “Livestock production” and “Poultry production” are only used for formatting purposes and do not contain actual production data.
 
 ---
 
-### Discrepancies noted
+### Team discrepancies noted
 
-- **Year class:** Jun Hao and Amelia wrote `integer`; the others wrote `numeric` or `double`. Both are acceptable; the reference data stores year as `numeric` (double).
-- **Cambodia missing values:** Only Amelia flagged the 0 vs `NA` issue at this stage; the others identified it later during the data inspection step.
+- **Year class:** Jun Hao and Amelia wrote `integer`, the others wrote `numeric`. Both are acceptable; the reference data stores year as `numeric` (double).
+
+- **Cambodia missing values:** Only Amelia flagged the 0 vs NA issue at this stage
 
 ---
 
@@ -105,7 +108,7 @@ Years (2018–2021) appear only once each as a row label at the top of a block �
 
 **160 rows.** The tidy data frame has one observation per unique (country, animal, year) combination: 10 ASEAN member countries × 4 animal types (beef and buffalo; pig; mutton and goat; poultry) × 4 years (2018–2021) = 160.
 
-### c. Why sheet X.14 is not tidy — at least three reasons
+### c. Why sheet X.14 is not tidy - at least three reasons
 
 1. **Years are row-group headers, not a column.** The values 2021, 2020, 2019, and 2018 appear as single cells in the first column, heading a block of rows rather than filling a dedicated `year` column. A single variable (`year`) therefore spans multiple structural positions instead of one column.
 
@@ -115,7 +118,6 @@ Years (2018–2021) appear only once each as a row label at the top of a block �
 
 4. **An aggregate column (ASEAN total) can be derived** from the individual country columns and therefore represents redundant summary information rather than a raw observation.
 
-5. **Missing values are encoded as 0 for Cambodia's mutton-and-goat entries**, whereas the source PDF marks those cells as "−" (not available at the time of publication). Zero conflates a genuine zero measurement with a missing value.
 
 ---
 
@@ -145,7 +147,16 @@ meat_raw
 
 ## 3.3 Tidy the Meat Production Data
 
-**Strategy:** The first column mixes year values (2021, 2020, 2019, 2018) with animal-type labels. We (1) extract the year into a separate column using `mutate()` and propagate it down with `fill()`, (2) keep only the four rows per year block that correspond to actual animal products, (3) recode those labels to the required lower-case strings, (4) drop the ASEAN aggregate column, (5) pivot the country columns to long format, and (6) trim any stray whitespace from country names before sorting.
+**Strategy:** The first column mixes year values (2021, 2020, 2019, 2018) in descending order with animal-type labels. 
+
+1. Extract the year into a separate column using `mutate()` and propagate it down with `fill()`.
+2. Filter to animal product rows, keep only the four rows per year block that correspond to actual animal products.
+3. Recode animal labels to the required lower-case strings. e.g. "Beef and Buffalo Meat" → "beef and buffalo", "Pig Meat" → "pig", etc.
+4. Drop the ASEAN aggregate column, and ignore the "Total meat production" rows.
+5. Pivot the country columns to long format by using it pivot_longer() with `names_to = "country"` and `values_to = "production"`.
+6. Trim any stray whitespace from country names before sorting. 
+7. Select and order the columns as required.
+8. Sort rows by descending year, then animal, then country.
 
 ```{r}
 #| label: tidy-meat
@@ -187,12 +198,12 @@ tail(meat_tidy)
 
 ### Verifier
 
-Independent confirmation that `meat_tidy` has the correct row count and animal strings:
+Independent confirmation that `meat_tidy` has the correct row count of 160 and animal strings:
 
 ```{r}
 #| label: verify-meat-shape
 # 10 countries × 4 animals × 4 years = 160 rows
-nrow(meat_tidy) == 160
+nrow(meat_tidy) == 160 #expected output: TRUE for 160 rows
 
 # Exactly the four required animal strings (any order)
 sort(unique(meat_tidy$animal))
@@ -202,7 +213,7 @@ sort(unique(meat_tidy$animal))
 
 ## 3.4 Correct Cambodia's Mutton-and-Goat Entries
 
-**Justification:** We use `mutate()` with `if_else()` and a two-condition predicate (`country == "Cambodia"` **and** `animal == "mutton and goat"`). This is the safest approach because it is maximally specific: it cannot accidentally overwrite any other zero in the table — for example, Singapore's near-zero pig or beef values — and it documents the data-quality assumption explicitly in the condition.
+**Justification:** We use `mutate()` with `if_else()` and a two-condition predicate (`country == "Cambodia"` **and** `animal == "mutton and goat"`). This is the safest approach because it is maximally specific as it cannot accidentally overwrite any other zero in the table. For example, Singapore's near-zero pig or beef values and it documents the data-quality assumption explicitly in the condition.
 
 ```{r}
 #| label: fix-cambodia
@@ -220,7 +231,7 @@ meat_tidy |>
   filter(country == "Cambodia", animal == "mutton and goat")
 ```
 
-**Verifier approach — base-R indexing as an independent check:**
+**Verifier approach is base-R indexing as an independent check:**
 
 ```{r}
 #| label: verify-cambodia
@@ -233,7 +244,7 @@ meat_tidy_v$production[
 ] <- NA
 
 # Both methods should produce identical production vectors
-identical(meat_tidy$production, meat_tidy_v$production)
+identical(meat_tidy$production, meat_tidy_v$production) #expected output: TRUE if the same, FALSE if different
 ```
 
 ---
@@ -284,7 +295,7 @@ head(pop_tidy)
 
 ### Verifier: Malaysia trailing space
 
-In sheet I.1, the cell for Malaysia contains a trailing space ("Malaysia "). After `read_xlsx()` the country column therefore holds `"Malaysia "`. The pipeline removes it with `str_trim(country)`, so the trailing space is **not** present in `pop_tidy$country`. The check below confirms no country name ends with whitespace.
+In sheet I.1, the cell for Malaysia contains a trailing space ("Malaysia "). After `read_xlsx()` the country column therefore holds `"Malaysia "`. The pipeline removes it with `str_trim(country)`, so the trailing space is not shown in `pop_tidy$country`. The check below confirms no country name ends with whitespace.
 
 ```{r}
 #| label: verify-malaysia-space
@@ -320,7 +331,7 @@ merged <- left_join(
   select(country, animal, year, production, pop)
 ```
 
-**Verifier Task — confirm row ordering is preserved:**
+**Verifier Task is to confirm row ordering is preserved:**
 
 ```{r}
 #| label: verify-row-order
@@ -349,7 +360,7 @@ merged <- merged |>
   mutate(meat_per_cap = production / pop * 1e3)
 ```
 
-**Verifier Task — independent check using the `$` operator:**
+**Verifier Task is to perform an independent check using the `$` operator:**
 
 ```{r}
 #| label: verify-per-capita
@@ -406,11 +417,11 @@ ggplot(
 
 ## 3.12 Comment on the Plot
 
-The most striking pattern in the plot is the **sharp decline in Myanmar's per-capita pig production between 2020 and 2021** — a drop from approximately 20 kg per person to roughly 5 kg per person (a ~75 % fall in a single year). This is consistent with the impact of African Swine Fever (ASF), a highly contagious and lethal haemorrhagic disease that was confirmed in Myanmar in 2019 and caused severe culling and herd losses in subsequent years (FAO, 2021). Vietnam shows a similar, though more gradual, decline in pig production across the full 2018–2021 period, also partly attributable to ASF.
+The most striking pattern in the plot is the **sharp decline in Myanmar's per-capita pig production between 2020 and 2021** a drop from approximately about 20 kg per person to roughly 5 kg per person (a ~75 % fall in a single year). This is consistent with the impact of African Swine Fever (ASF), a highly contagious and lethal haemorrhagic disease that was confirmed in Myanmar in 2019 and caused severe culling and herd losses in subsequent years (FAO, 2021). Vietnam also shows a similar trend, though it more gradual, decline in pig production across the full 2018–2021 period, also partly attributable to ASF.
 
-A second noteworthy observation is that **Brunei Darussalam's per-capita poultry production is disproportionately high** (~70 kg per person in 2021) compared to every other country in the panel. This reflects Brunei's well-developed commercial poultry sector combined with its very small population (~430 000 people), amplifying the per-capita figure.
+Second observation is that **Brunei Darussalam's per-capita poultry production is disproportionately high** (~70 kg per person in 2021) compared to every other country in the panel. This reflects Brunei's well-developed commercial poultry sector combined with its very small population (~430 000 people), amplifying the per-capita figure.
 
-**Reference:** FAO (2021) *African Swine Fever — Situation update*. Rome: Food and Agriculture Organization of the United Nations. Available at: https://www.fao.org/animal-disease-information/asf (Accessed: 19 May 2026).
+**Reference:** FAO (2021) *African Swine Fever - Situation update*. Rome: Food and Agriculture Organization of the United Nations. Available at: https://www.fao.org/animal-disease-information/asf (Accessed: 19 May 2026).
 
 ---
 
@@ -418,7 +429,9 @@ A second noteworthy observation is that **Brunei Darussalam's per-capita poultry
 
 **Tool used:** Claude (Claude.ai / Claude Code).
 
-**Useful suggestion:** When asked how to extract year information from the first column of `meat_raw`, Claude correctly suggested creating a new `year` column with `mutate()` and `if_else()` to detect four-digit strings, then using `fill()` to propagate the year values downward *before* filtering out the year-header rows. This ordering is essential: filtering first would permanently discard the year information before it could be copied.
+**Useful suggestion:** 
+
+When asked AI how to extract year information from the first column of `meat_raw`, Claude correctly suggested creating a new `year` column with `mutate()` and `if_else()` to detect four-digit strings, then using `fill()` to propagate the year values downward *before* filtering out the year-header rows. This ordering is essential: filtering first would permanently discard the year information before it could be copied.
 
 **Problematic response:** When first asked for the `read_xlsx()` range, Claude suggested `range = "A3:L35"` for X.14 and `"A4:K14"` for I.1. Both were off by one row because the workbook has a hidden blank row 1 that offsets all cell addresses. The error was detected by printing `names(meat_raw)` and observing that column names came out as `...1`, `...2`, … with the 12th column showing "(in thousand metric ton)" instead of "ASEAN". The correct ranges are `"A4:L36"` and `"A5:K15"` respectively.
 
@@ -428,8 +441,8 @@ A second noteworthy observation is that **Brunei Darussalam's per-capita poultry
 
 | Member | Role | Contributions |
 |--------|------|---------------|
-| Chuang Jun Hao | Coder | Typed and maintained the canonical QMD; managed folder structure and ensured all file paths are project-relative |
+| Chuang Jun Hao | Coder | Typed and maintained the canonical QMD, managed folder structure and ensured all file paths are project-relative |
 | Lim Tze Kai | Navigator | Read tasks, kept the team on track, determined overall coding strategy, and checked all required questions were attempted |
-| Amelia Kwek Li Yan | Verifier | Confirmed row counts, column types, missing values, and join behaviour; wrote independent verification checks |
-| Tan Bing Kun Terence | AI Liaison | Queried Claude and maintained the AI interaction log; identified useful and problematic AI suggestions |
-| Kwok Chang Feng Zenden | Constructive Critic + Reporter | Reviewed code and text before merging; drafted Markdown explanations; confirmed ZIP archive contents |
+| Amelia Kwek Li Yan | Verifier | Confirmed row counts, column types, missing values, and join behaviour, wrote independent verification checks |
+| Tan Bing Kun Terence | AI Liaison | Queried Claude and maintained the AI interaction log, identified useful and problematic AI suggestions |
+| Kwok Chang Feng Zenden | Constructive Critic + Reporter | Reviewed code and text before merging, drafted Markdown explanations and confirmed ZIP archive contents |
