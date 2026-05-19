@@ -236,7 +236,7 @@ identical(
 ## Interaction 8 — §3.9 Derive Per-Capita Production
 
 **Prompt:**
-> How do I add meat_per_cap with the correct unit conversion?
+> How do I add meat_per_cap with the correct unit?
 
 **Response:**
 

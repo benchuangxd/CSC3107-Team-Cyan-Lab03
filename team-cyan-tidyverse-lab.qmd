@@ -29,7 +29,7 @@ library(waldo)
 
 ### Individual Predictions
 
-#### Chuang Jun Hao (Coder)
+#### Chuang Jun Hao
 
 **a.** Columns: `country` (character), `animal` (character), `year` (integer), `production` (numeric/double). The production values are in thousands of metric tons so they'll be decimal numbers.
 
@@ -42,7 +42,7 @@ library(waldo)
 
 ---
 
-#### Lim Tze Kai (Navigator)
+#### Lim Tze Kai
 
 **a.** `country` (chr), `animal` (chr), `year` (numeric), `production` (numeric). Year could be integer but I'll say numeric to be safe.
 
@@ -56,7 +56,7 @@ library(waldo)
 
 ---
 
-#### Amelia Kwek Li Yan (Verifier)
+#### Amelia Kwek Li Yan
 
 **a.** `country` (character), `animal` (character), `year` (integer — whole numbers only), `production` (double). I wrote integer for year since 2018–2021 are whole numbers, but numeric would also be fine.
 
@@ -70,7 +70,7 @@ library(waldo)
 
 ---
 
-#### Tan Bing Kun Terence (AI Liaison)
+#### Tan Bing Kun Terence
 
 **a.** `country` (chr), `animal` (chr), `year` (dbl or int), `production` (dbl).
 
@@ -84,7 +84,7 @@ library(waldo)
 
 ---
 
-#### Kwok Chang Feng Zenden (Constructive Critic + Reporter)
+#### Kwok Chang Feng Zenden
 
 **a.** `country` (character), `animal` (character), `year` (numeric), `production` (numeric). Production is in thousands of metric tons.
 
@@ -167,11 +167,7 @@ meat_raw
 meat_tidy <- meat_raw |>
   rename(animal = 1) |>
   mutate(
-    year = if_else(
-      str_detect(animal, "^\\d{4}$"),
-      as.numeric(animal),
-      NA_real_
-    )
+    year = as.numeric(str_extract(animal, "^\\d{4}$"))
   ) |>
   fill(year) |>
   filter(
@@ -204,7 +200,7 @@ head(meat_tidy)
 tail(meat_tidy)
 ```
 
-### Verifier Task
+### Verifier
 
 Independent confirmation that `meat_tidy` has the correct row count and animal strings:
 
@@ -301,7 +297,7 @@ pop_tidy <- pop_raw |>
 head(pop_tidy)
 ```
 
-### Verifier Task: Malaysia trailing space
+### Verifier: Malaysia trailing space
 
 In sheet I.1, the cell for Malaysia contains a trailing space ("Malaysia "). After `read_xlsx()` the country column therefore holds `"Malaysia "`. The pipeline removes it with `str_trim(country)`, so the trailing space is **not** present in `pop_tidy$country`. The check below confirms no country name ends with whitespace.
 
@@ -452,5 +448,3 @@ A second noteworthy observation is that **Brunei Darussalam's per-capita poultry
 | Amelia Kwek Li Yan | Verifier | Confirmed row counts, column types, missing values, and join behaviour; wrote independent verification checks |
 | Tan Bing Kun Terence | AI Liaison | Queried Claude and maintained the AI interaction log; identified useful and problematic AI suggestions |
 | Kwok Chang Feng Zenden | Constructive Critic + Reporter | Reviewed code and text before merging; drafted Markdown explanations; confirmed ZIP archive contents |
-
-*All members were present for the full duration of the lab.*
