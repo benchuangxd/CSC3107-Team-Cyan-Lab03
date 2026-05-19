@@ -23,7 +23,89 @@ library(waldo)
 
 ## 3.1 Think Before Prompting
 
-*Each team member wrote their answers individually before any AI tool was consulted. The Reporter's summary of the team's combined predictions is recorded below.*
+*Each team member wrote their answers individually before any AI tool was consulted. The Reporter's summary of the team's combined predictions is recorded below, followed by each member's individual notes.*
+
+---
+
+### Individual Predictions
+
+#### Chuang Jun Hao (Coder)
+
+**a.** Columns: `country` (character), `animal` (character), `year` (integer), `production` (numeric/double). The production values are in thousands of metric tons so they'll be decimal numbers.
+
+**b.** 160 rows. 10 countries × 4 animal types × 4 years (2018–2021) = 160.
+
+**c.**
+- Year values appear as single row labels (2021, 2020, …) instead of being a proper column — one variable is spread across multiple rows.
+- Each country is its own column instead of being a value in a `country` column.
+- There are "Total meat production" rows that are just sums of other rows — redundant.
+
+---
+
+#### Lim Tze Kai (Navigator)
+
+**a.** `country` (chr), `animal` (chr), `year` (numeric), `production` (numeric). Year could be integer but I'll say numeric to be safe.
+
+**b.** Should be 160 rows: 10 ASEAN countries × 4 meat categories × 4 years.
+
+**c.**
+- Countries are spread across columns — they should be values in one column called `country`.
+- Years are row headers, not a column.
+- There is an "ASEAN" aggregate column that is derivable and does not belong in tidy data.
+- Section header rows like "Livestock production" are not actual observations.
+
+---
+
+#### Amelia Kwek Li Yan (Verifier)
+
+**a.** `country` (character), `animal` (character), `year` (integer — whole numbers only), `production` (double). I wrote integer for year since 2018–2021 are whole numbers, but numeric would also be fine.
+
+**b.** 160 rows. 10 × 4 × 4 = 160. Each unique combination of (country, animal, year) is one row.
+
+**c.**
+- The year variable is a row-group label rather than a column, so it violates "each variable forms a column".
+- Country names are column headers instead of values — they should all go into one `country` column.
+- "Total meat production" rows are aggregates that can be computed from the other rows and should be dropped.
+- Cambodia's mutton-and-goat values are recorded as 0 when they should be `NA` (not available) — zero and missing mean different things.
+
+---
+
+#### Tan Bing Kun Terence (AI Liaison)
+
+**a.** `country` (chr), `animal` (chr), `year` (dbl or int), `production` (dbl).
+
+**b.** I think 160 rows — 10 countries, 4 animal types, 4 years, so 10 × 4 × 4 = 160.
+
+**c.**
+- Years are embedded as row labels, not stored in their own column.
+- Country names are used as column names when they should be data values.
+- Header rows like "Livestock production" and "Poultry production" are not observations.
+- The ASEAN total column is a derived aggregate and is not a raw observation.
+
+---
+
+#### Kwok Chang Feng Zenden (Constructive Critic + Reporter)
+
+**a.** `country` (character), `animal` (character), `year` (numeric), `production` (numeric). Production is in thousands of metric tons.
+
+**b.** 160 rows. Each row = one country + one animal type + one year. 10 × 4 × 4 = 160.
+
+**c.**
+- Years (2018–2021) appear only once each as a row label at the top of a block — they are not a dedicated column.
+- Each country occupies its own column; the country name is a variable value, not a variable name.
+- "Total meat production" and the ASEAN column summarise data that is already present and should be removed.
+- Section sub-headers ("Livestock production", "Poultry production") have no production values and are structural, not data.
+
+---
+
+### Discrepancies noted
+
+- **Year class:** Chuang Jun Hao and Amelia Kwek Li Yan wrote `integer`; the others wrote `numeric` or `double`. Both are acceptable; the reference data stores year as `numeric` (double).
+- **Cambodia missing values:** Only Amelia Kwek Li Yan flagged the 0 vs `NA` issue at this stage; the others identified it later during the data inspection step.
+
+---
+
+### Reporter's Summary
 
 ### a. Columns and their classes
 
