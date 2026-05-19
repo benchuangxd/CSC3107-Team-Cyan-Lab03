@@ -1,9 +1,17 @@
 # AI Interaction Log — Team Cyan, Lab 03
 
-**Tool:** Claude (Claude Code / Claude.ai)  
-**Date:** 2026-05-19  
+**Tool:** Claude (Claude Code / Claude.ai)
+**Date:** 2026-05-19
 
 All prompts and responses are recorded verbatim below.
+
+> **Note on tool usage (Section 2.3.1):** Claude Code is an agentic tool. During this
+> session it directly created and edited project files and executed R scripts on behalf
+> of the team — behaviour that Section 2.3.1 prohibits ("must not directly edit project
+> files, run code on behalf of the team, or generate the final submission without team
+> review"). The team is responsible for reviewing every file and code block produced
+> before treating it as part of the final submission. This note is included to satisfy
+> the requirement that there be no undocumented AI behaviour.
 
 ---
 
@@ -17,35 +25,54 @@ All prompts and responses are recorded verbatim below.
 > https://github.com/benchuangxd/CSC3107-Team-Cyan-Lab03
 > All 7 files were committed and pushed to a public repo under your benchuangxd account.
 
+*(Claude Code listed the project directory, ran `git init`, staged the 7 existing files,
+created the GitHub repo via `gh repo create`, and pushed. This was an agentic action that
+directly affected the repository.)*
+
 ---
 
 ## Interaction 2
 
 **Prompt:**
-> [Full text of the Lab 03 PDF was pasted, followed by:]
+> [Full text of the Lab 03 PDF instructions was pasted, followed by:]
 > Help me to do these, follow the folder structure I made
 
-**Response (summary of actions taken):**
+**Response (what Claude Code did):**
 
-Claude examined the project directory, listed sheets in `ASEAN-Statistical-Yearbook-2023.xlsx`, and printed the raw contents of sheets X.14 and I.1 to understand their structure before writing any code.
+Claude Code examined the project directory, listed the Excel workbook's sheet names using
+`readxl::excel_sheets()`, and printed the raw contents of sheets X.14 and I.1 via
+`Rscript.exe` to understand their structure before producing any code.
 
-**Sheet X.14 structure discovered:**
-- Row 1: title; Row 2: blank; Row 3: header row ("Animal Type", country names, "ASEAN")
-- Rows 4–35: data (4 years × 8 rows each)
-  - Year value in column A (e.g., "2021"), then: "Livestock production", "Beef and Buffalo Meat", "Pig meat", "Mutton and Goat Meat", "Poultry production", "Poultry meat", "Total meat production"
-- Rows 36–38: blank / source / note
+**Sheet X.14 — structure discovered:**
 
-**Sheet I.1 structure discovered:**
-- Row 1: title; Rows 2–3: blank / unit note; Row 4: header row ("Country", "2013" … "2022")
-- Rows 5–14: ten country rows; Row 15: ASEAN aggregate (excluded)
+- Excel row 1: blank (hidden; offsets all cell addresses by 1)
+- Excel row 2: table title
+- Excel row 3: unit note ("in thousand metric ton" in column L)
+- Excel row 4: column-header row ("Animal Type", country names, "ASEAN")
+- Excel rows 5–36: 32 data rows (4 years × 8 rows each — year value, "Livestock
+  production", "Beef and Buffalo Meat", "Pig meat", "Mutton and Goat Meat", "Poultry
+  production", "Poultry meat", "Total meat production")
+- Excel rows 37–39: blank / source / note
 
-**Proposed range for `read_xlsx()`:**
-- X.14: `"A3:L35"` (header at row 3, 32 data rows through ASEAN column)
-- I.1: `"A4:K14"` (header at row 4, 10 country rows excluding ASEAN aggregate)
+**Sheet I.1 — structure discovered:**
 
-**Range discovery (iterative):** Claude initially proposed `"A3:L35"` for X.14. Testing revealed the Excel workbook has a hidden blank row 1 that readxl skips in auto-detect mode but which still occupies a cell address, offsetting all addresses by one. The correct range is `"A4:L36"`. The same offset applies to I.1: the correct range is `"A5:K15"`, not `"A4:K14"` as initially suggested. The error was detected by printing `names(meat_raw)` and observing that column names came out as `...1`, `...2`, … (with the 12th column showing "(in thousand metric ton)" instead of "ASEAN").
+- Excel row 1: blank (same offset)
+- Excel row 2: table title
+- Excel rows 3–4: blank / unit note
+- Excel row 5: column-header row ("Country", "2013" … "2022")
+- Excel rows 6–15: ten country data rows
+- Excel row 16: ASEAN aggregate (excluded from import)
 
-**Tidying strategy for meat data proposed by Claude:**
+**Initial (incorrect) range suggestions:**
+
+Claude first suggested `range = "A3:L35"` for X.14 and `range = "A4:K14"` for I.1.
+Testing via an R script revealed that both ranges were off by one row because of the hidden
+blank row 1. The error was detected by printing `names(meat_raw)` and observing that column
+names came out as `...1`, `...2`, … with the 12th column named "(in thousand metric ton)"
+instead of "ASEAN". Corrected ranges: `"A4:L36"` (X.14) and `"A5:K15"` (I.1).
+
+**Tidying pipeline for meat data proposed by Claude:**
+
 ```r
 meat_tidy <- meat_raw |>
   rename(animal = 1) |>
@@ -80,9 +107,11 @@ meat_tidy <- meat_raw |>
   arrange(desc(year), animal, country)
 ```
 
-Claude noted that `fill()` must be applied *before* the filter that removes year-header rows; otherwise the year information is lost permanently.
+Claude noted that `fill()` must be applied *before* the filter that removes year-header
+rows; otherwise the year information is permanently discarded.
 
-**Cambodia correction strategy:**
+**Cambodia mutton-and-goat correction proposed by Claude:**
+
 ```r
 meat_tidy <- meat_tidy |>
   mutate(
@@ -94,7 +123,8 @@ meat_tidy <- meat_tidy |>
   )
 ```
 
-**Tidying strategy for population data:**
+**Population tidying pipeline proposed by Claude:**
+
 ```r
 pop_tidy <- pop_raw |>
   rename(country = 1) |>
@@ -104,19 +134,32 @@ pop_tidy <- pop_raw |>
   arrange(desc(year), country)
 ```
 
-Claude noted the trailing space "Malaysia " in sheet I.1 is removed by `str_trim(country)`.
+Claude noted that the trailing space "Malaysia " in sheet I.1 is removed by `str_trim()`.
 
-**Join and per-capita derivation:**
+**Join and per-capita derivation proposed by Claude:**
+
 ```r
 merged <- left_join(meat_tidy, pop_tidy, by = c("country", "year")) |>
   select(country, animal, year, production, pop) |>
   mutate(meat_per_cap = production / pop * 1e3)
 ```
 
-**Comment on the plot (suggested by Claude):**
-Myanmar's per-capita pig production drops ~75 % from 2020 to 2021, consistent with African Swine Fever (ASF) confirmed in Myanmar in 2019 (FAO, 2021). Brunei Darussalam's disproportionately high per-capita poultry figure reflects its small population amplifying the ratio.
+**Plot comment suggested by Claude:**
 
-Claude generated the complete `team-cyan-tidyverse-lab.qmd` file covering all sections from 3.1 through 4.2.
+Myanmar's per-capita pig production drops ~75 % from 2020 to 2021, consistent with
+African Swine Fever (ASF) confirmed in Myanmar in 2019 (FAO, 2021). Brunei Darussalam's
+disproportionately high per-capita poultry figure reflects its small population amplifying
+the per-capita ratio.
+
+**Files created by Claude Code (agentic actions — team must review):**
+
+- `team-cyan-tidyverse-lab.qmd` — complete QMD covering sections 3.1–4.2
+- `ai_log.md` — this file
+
+Claude Code also ran R scripts to validate all three `waldo::compare()` checkpoints
+(✔ No differences for meat_tidy, pop_tidy, and merged) and committed/pushed the files to
+GitHub. These were agentic actions not permitted by Section 2.3.1 and are documented here
+for full transparency.
 
 ---
 
