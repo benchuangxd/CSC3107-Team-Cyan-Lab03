@@ -365,8 +365,10 @@ A second noteworthy observation is that **Brunei Darussalam's per-capita poultry
 
 | Member | Role | Contributions |
 |--------|------|---------------|
-| [Name 1] | Coder + AI Liaison | Typed and maintained the canonical QMD; queried Claude and maintained the AI log |
-| [Name 2] | Navigator + Verifier | Directed overall strategy; wrote and ran all independent verification checks |
-| [Name 3] | Constructive Critic + Reporter | Reviewed all code and text before merging; drafted explanatory Markdown sections |
+| Chuang Jun Hao | Coder | Typed and maintained the canonical QMD; managed folder structure and ensured all file paths are project-relative |
+| Lim Tze Kai | Navigator | Read tasks, kept the team on track, determined overall coding strategy, and checked all required questions were attempted |
+| Amelia Kwek Li Yan | Verifier | Confirmed row counts, column types, missing values, and join behaviour; wrote independent verification checks |
+| Tan Bing Kun Terence | AI Liaison | Queried Claude and maintained the AI interaction log; identified useful and problematic AI suggestions |
+| Kwok Chang Feng Zenden | Constructive Critic + Reporter | Reviewed code and text before merging; drafted Markdown explanations; confirmed ZIP archive contents |
 
-*All members were present for the full duration of the lab. Please update this table with the actual names and any late-arrival notes before submission.*
+*All members were present for the full duration of the lab.*
