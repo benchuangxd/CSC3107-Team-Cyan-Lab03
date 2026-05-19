@@ -6,7 +6,6 @@ format:
   html:
     toc: true
     toc-depth: 3
-    embed-resources: true
 ---
 
 ## Setup
