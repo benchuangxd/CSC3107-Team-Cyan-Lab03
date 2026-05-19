@@ -54,9 +54,6 @@ library(waldo)
 
 ## 3.2 Import the ASEAN Meat Production Data
 
-Opening the workbook in Excel, sheet X.14 has:
-
-- Row 1: table title
 The workbook has a blank row 1, so all visible row numbers in Excel are offset by one from the true cell addresses. The structure is:
 
 - Row 2: table title
@@ -360,7 +357,7 @@ A second noteworthy observation is that **Brunei Darussalam's per-capita poultry
 
 **Useful suggestion:** When asked how to extract year information from the first column of `meat_raw`, Claude correctly suggested creating a new `year` column with `mutate()` and `if_else()` to detect four-digit strings, then using `fill()` to propagate the year values downward *before* filtering out the year-header rows. This ordering is essential: filtering first would permanently discard the year information before it could be copied.
 
-**Problematic response:** When first asked for the `read_xlsx()` range, Claude suggested `range = "A4:L35"`, starting at row 4 and skipping row 3. This would have caused `read_xlsx()` to synthesise column names (`...1`, `...2`, …) rather than reading the actual country names from row 3. The team detected the error immediately by printing `names(meat_raw)` and comparing against the visible spreadsheet header, then corrected the range to `"A3:L35"`.
+**Problematic response:** When first asked for the `read_xlsx()` range, Claude suggested `range = "A3:L35"` for X.14 and `"A4:K14"` for I.1. Both were off by one row because the workbook has a hidden blank row 1 that offsets all cell addresses. The error was detected by printing `names(meat_raw)` and observing that column names came out as `...1`, `...2`, … with the 12th column showing "(in thousand metric ton)" instead of "ASEAN". The correct ranges are `"A4:L36"` and `"A5:K15"` respectively.
 
 ---
 
