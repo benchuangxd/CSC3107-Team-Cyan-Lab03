@@ -18,22 +18,6 @@ All prompts and responses are recorded verbatim below.
 ## Interaction 1
 
 **Prompt:**
-> First off help me to create a repo and commit these and give me the url to open
-
-**Response:**
-> Done! Your repo is live at:
-> https://github.com/benchuangxd/CSC3107-Team-Cyan-Lab03
-> All 7 files were committed and pushed to a public repo under your benchuangxd account.
-
-*(Claude Code listed the project directory, ran `git init`, staged the 7 existing files,
-created the GitHub repo via `gh repo create`, and pushed. This was an agentic action that
-directly affected the repository.)*
-
----
-
-## Interaction 2
-
-**Prompt:**
 > [Full text of the Lab 03 PDF instructions was pasted, followed by:]
 > Help me to do these, follow the folder structure I made
 
