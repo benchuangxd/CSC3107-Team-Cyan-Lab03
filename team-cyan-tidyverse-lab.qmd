@@ -36,9 +36,7 @@ library(waldo)
 **b.** 160 rows. 10 countries × 4 animal types × 4 years (2018–2021) = 160.
 
 **c.**
-- Year values appear as single row labels (2021, 2020, …) instead of being a proper column — one variable is spread across multiple rows.
-- Each country is its own column instead of being a value in a `country` column.
-- There are "Total meat production" rows that are just sums of other rows — redundant.
+Year values appear as single row labels (2021, 2020, …) instead of being a proper column — one variable is spread across multiple rows. Each country is its own column instead of being a value in a `country` column. There are "Total meat production" rows that are just sums of other rows — redundant.
 
 ---
 
@@ -49,10 +47,7 @@ library(waldo)
 **b.** Should be 160 rows: 10 ASEAN countries × 4 meat categories × 4 years.
 
 **c.**
-- Countries are spread across columns — they should be values in one column called `country`.
-- Years are row headers, not a column.
-- There is an "ASEAN" aggregate column that is derivable and does not belong in tidy data.
-- Section header rows like "Livestock production" are not actual observations.
+Countries are spread across columns — they should be values in one column called `country`. Years are row headers, not a column. There is an "ASEAN" aggregate column that is derivable and does not belong in tidy data. Section header rows like "Livestock production" are not actual observations.
 
 ---
 
@@ -63,10 +58,7 @@ library(waldo)
 **b.** 160 rows. 10 × 4 × 4 = 160. Each unique combination of (country, animal, year) is one row.
 
 **c.**
-- The year variable is a row-group label rather than a column, so it violates "each variable forms a column".
-- Country names are column headers instead of values — they should all go into one `country` column.
-- "Total meat production" rows are aggregates that can be computed from the other rows and should be dropped.
-- Cambodia's mutton-and-goat values are recorded as 0 when they should be `NA` (not available) — zero and missing mean different things.
+The year variable is a row-group label rather than a column, so it violates "each variable forms a column". Country names are column headers instead of values — they should all go into one `country` column. "Total meat production" rows are aggregates that can be computed from the other rows and should be dropped Cambodia's mutton-and-goat values are recorded as 0 when they should be `NA` (not available) — zero and missing mean different things.
 
 ---
 
@@ -77,10 +69,7 @@ library(waldo)
 **b.** I think 160 rows — 10 countries, 4 animal types, 4 years, so 10 × 4 × 4 = 160.
 
 **c.**
-- Years are embedded as row labels, not stored in their own column.
-- Country names are used as column names when they should be data values.
-- Header rows like "Livestock production" and "Poultry production" are not observations.
-- The ASEAN total column is a derived aggregate and is not a raw observation.
+Years are embedded as row labels, not stored in their own column. Country names are used as column names when they should be data values. Header rows like "Livestock production" and "Poultry production" are not observations. The ASEAN total column is a derived aggregate and is not a raw observation.
 
 ---
 
@@ -91,17 +80,14 @@ library(waldo)
 **b.** 160 rows. Each row = one country + one animal type + one year. 10 × 4 × 4 = 160.
 
 **c.**
-- Years (2018–2021) appear only once each as a row label at the top of a block — they are not a dedicated column.
-- Each country occupies its own column; the country name is a variable value, not a variable name.
-- "Total meat production" and the ASEAN column summarise data that is already present and should be removed.
-- Section sub-headers ("Livestock production", "Poultry production") have no production values and are structural, not data.
+Years (2018–2021) appear only once each as a row label at the top of a block — they are not a dedicated column. Each country occupies its own column; the country name is a variable value, not a variable name. "Total meat production" and the ASEAN column summarise data that is already present and should be removed.Section sub-headers ("Livestock production", "Poultry production") have no production values and are structural, not data.
 
 ---
 
 ### Discrepancies noted
 
-- **Year class:** Chuang Jun Hao and Amelia Kwek Li Yan wrote `integer`; the others wrote `numeric` or `double`. Both are acceptable; the reference data stores year as `numeric` (double).
-- **Cambodia missing values:** Only Amelia Kwek Li Yan flagged the 0 vs `NA` issue at this stage; the others identified it later during the data inspection step.
+- **Year class:** Jun Hao and Amelia wrote `integer`; the others wrote `numeric` or `double`. Both are acceptable; the reference data stores year as `numeric` (double).
+- **Cambodia missing values:** Only Amelia flagged the 0 vs `NA` issue at this stage; the others identified it later during the data inspection step.
 
 ---
 

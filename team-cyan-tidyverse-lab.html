@@ -2426,43 +2426,43 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="chuang-jun-hao">Chuang Jun Hao</h4>
 <p><strong>a.</strong> Columns: <code>country</code> (character), <code>animal</code> (character), <code>year</code> (integer), <code>production</code> (numeric/double). The production values are in thousands of metric tons so they’ll be decimal numbers.</p>
 <p><strong>b.</strong> 160 rows. 10 countries × 4 animal types × 4 years (2018–2021) = 160.</p>
-<p><strong>c.</strong> - Year values appear as single row labels (2021, 2020, …) instead of being a proper column — one variable is spread across multiple rows. - Each country is its own column instead of being a value in a <code>country</code> column. - There are “Total meat production” rows that are just sums of other rows — redundant.</p>
+<p><strong>c.</strong> Year values appear as single row labels (2021, 2020, …) instead of being a proper column — one variable is spread across multiple rows. Each country is its own column instead of being a value in a <code>country</code> column. There are “Total meat production” rows that are just sums of other rows — redundant.</p>
 <hr>
 </section>
 <section id="lim-tze-kai" class="level4">
 <h4 class="anchored" data-anchor-id="lim-tze-kai">Lim Tze Kai</h4>
 <p><strong>a.</strong> <code>country</code> (chr), <code>animal</code> (chr), <code>year</code> (numeric), <code>production</code> (numeric). Year could be integer but I’ll say numeric to be safe.</p>
 <p><strong>b.</strong> Should be 160 rows: 10 ASEAN countries × 4 meat categories × 4 years.</p>
-<p><strong>c.</strong> - Countries are spread across columns — they should be values in one column called <code>country</code>. - Years are row headers, not a column. - There is an “ASEAN” aggregate column that is derivable and does not belong in tidy data. - Section header rows like “Livestock production” are not actual observations.</p>
+<p><strong>c.</strong> Countries are spread across columns — they should be values in one column called <code>country</code>. Years are row headers, not a column. There is an “ASEAN” aggregate column that is derivable and does not belong in tidy data. Section header rows like “Livestock production” are not actual observations.</p>
 <hr>
 </section>
 <section id="amelia-kwek-li-yan" class="level4">
 <h4 class="anchored" data-anchor-id="amelia-kwek-li-yan">Amelia Kwek Li Yan</h4>
 <p><strong>a.</strong> <code>country</code> (character), <code>animal</code> (character), <code>year</code> (integer — whole numbers only), <code>production</code> (double). I wrote integer for year since 2018–2021 are whole numbers, but numeric would also be fine.</p>
 <p><strong>b.</strong> 160 rows. 10 × 4 × 4 = 160. Each unique combination of (country, animal, year) is one row.</p>
-<p><strong>c.</strong> - The year variable is a row-group label rather than a column, so it violates “each variable forms a column”. - Country names are column headers instead of values — they should all go into one <code>country</code> column. - “Total meat production” rows are aggregates that can be computed from the other rows and should be dropped. - Cambodia’s mutton-and-goat values are recorded as 0 when they should be <code>NA</code> (not available) — zero and missing mean different things.</p>
+<p><strong>c.</strong> The year variable is a row-group label rather than a column, so it violates “each variable forms a column”. Country names are column headers instead of values — they should all go into one <code>country</code> column. “Total meat production” rows are aggregates that can be computed from the other rows and should be dropped Cambodia’s mutton-and-goat values are recorded as 0 when they should be <code>NA</code> (not available) — zero and missing mean different things.</p>
 <hr>
 </section>
 <section id="tan-bing-kun-terence" class="level4">
 <h4 class="anchored" data-anchor-id="tan-bing-kun-terence">Tan Bing Kun Terence</h4>
 <p><strong>a.</strong> <code>country</code> (chr), <code>animal</code> (chr), <code>year</code> (dbl or int), <code>production</code> (dbl).</p>
 <p><strong>b.</strong> I think 160 rows — 10 countries, 4 animal types, 4 years, so 10 × 4 × 4 = 160.</p>
-<p><strong>c.</strong> - Years are embedded as row labels, not stored in their own column. - Country names are used as column names when they should be data values. - Header rows like “Livestock production” and “Poultry production” are not observations. - The ASEAN total column is a derived aggregate and is not a raw observation.</p>
+<p><strong>c.</strong> Years are embedded as row labels, not stored in their own column. Country names are used as column names when they should be data values. Header rows like “Livestock production” and “Poultry production” are not observations. The ASEAN total column is a derived aggregate and is not a raw observation.</p>
 <hr>
 </section>
 <section id="kwok-chang-feng-zenden" class="level4">
 <h4 class="anchored" data-anchor-id="kwok-chang-feng-zenden">Kwok Chang Feng Zenden</h4>
 <p><strong>a.</strong> <code>country</code> (character), <code>animal</code> (character), <code>year</code> (numeric), <code>production</code> (numeric). Production is in thousands of metric tons.</p>
 <p><strong>b.</strong> 160 rows. Each row = one country + one animal type + one year. 10 × 4 × 4 = 160.</p>
-<p><strong>c.</strong> - Years (2018–2021) appear only once each as a row label at the top of a block — they are not a dedicated column. - Each country occupies its own column; the country name is a variable value, not a variable name. - “Total meat production” and the ASEAN column summarise data that is already present and should be removed. - Section sub-headers (“Livestock production”, “Poultry production”) have no production values and are structural, not data.</p>
+<p><strong>c.</strong> Years (2018–2021) appear only once each as a row label at the top of a block — they are not a dedicated column. Each country occupies its own column; the country name is a variable value, not a variable name. “Total meat production” and the ASEAN column summarise data that is already present and should be removed.Section sub-headers (“Livestock production”, “Poultry production”) have no production values and are structural, not data.</p>
 <hr>
 </section>
 </section>
 <section id="discrepancies-noted" class="level3">
 <h3 class="anchored" data-anchor-id="discrepancies-noted">Discrepancies noted</h3>
 <ul>
-<li><strong>Year class:</strong> Chuang Jun Hao and Amelia Kwek Li Yan wrote <code>integer</code>; the others wrote <code>numeric</code> or <code>double</code>. Both are acceptable; the reference data stores year as <code>numeric</code> (double).</li>
-<li><strong>Cambodia missing values:</strong> Only Amelia Kwek Li Yan flagged the 0 vs <code>NA</code> issue at this stage; the others identified it later during the data inspection step.</li>
+<li><strong>Year class:</strong> Jun Hao and Amelia wrote <code>integer</code>; the others wrote <code>numeric</code> or <code>double</code>. Both are acceptable; the reference data stores year as <code>numeric</code> (double).</li>
+<li><strong>Cambodia missing values:</strong> Only Amelia flagged the 0 vs <code>NA</code> issue at this stage; the others identified it later during the data inspection step.</li>
 </ul>
 <hr>
 </section>
